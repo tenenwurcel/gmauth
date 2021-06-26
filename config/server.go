@@ -16,7 +16,7 @@ func SetupApp() {
 	App := fiber.New()
 	fmt.Println("ok")
 	App.Use(cors.New(cors.Config{
-		AllowOrigins:     "https://rel2-bambufe-tenenwurcel.cloud.okteto.net",
+		AllowOrigins:     "https://tenenwurcel.com.br",
 		AllowHeaders:     "*",
 		AllowCredentials: true,
 	}))
