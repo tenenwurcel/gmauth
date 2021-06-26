@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-gmauth
+spec:
+  # minReadySeconds: 30
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-gmauth
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-gmauth
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-gmauth
+        image: ghcr.io/tenenwurcel/gmauth:1.0.0
+      imagePullSecrets:
+      - name: regcred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-gmauth
+  labels:
+    app: {{ .Release.Name }}-gmauth
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: {{ .Release.Name }}-gmauth

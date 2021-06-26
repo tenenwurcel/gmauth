@@ -4,14 +4,14 @@ import (
 	"encoding/hex"
 	"gmauth/utils"
 
+	"github.com/gofiber/fiber/v2"
 	uuid "github.com/satori/go.uuid"
 )
 
 type Auth struct {
-	SID         uuid.UUID `json:"-"`
-	State       uuid.UUID `json:"state"`
-	SIDCrypt    string    `json:"sid"`
-	RedirectURI string    `json:"redirect_uri"`
+	SID      uuid.UUID `json:"-"`
+	State    uuid.UUID `json:"state"`
+	SIDCrypt string    `json:"sid"`
 }
 
 func NewAuth() (Auth, error) {
@@ -19,22 +19,22 @@ func NewAuth() (Auth, error) {
 	state := uuid.NewV4()
 
 	cypher := utils.GetCypher()
-
 	ciphertext, err := cypher.Encrypt([]byte(sid.String()))
 	if err != nil {
 		return Auth{}, err
 	}
 
-	hex.EncodeToString(ciphertext)
-	return Auth{SIDCrypt: hex.EncodeToString(ciphertext), State: state, RedirectURI: "http://localhost:8080"}, nil
+	return Auth{SIDCrypt: hex.EncodeToString(ciphertext), State: state, SID: sid}, nil
 }
 
-/*
-test2, _ := hex.DecodeString(test)
-plaintext, err := cypher.Decrypt(test2)
-if err != nil {
-	// TODO: Properly handle error
-	log.Fatal(err)
+type AuthEntity interface {
+	GetLogin(ctx *fiber.Ctx) (Auth, error)
+	Authorize()
+	//getDiscordUser()
+	//checkGuildAuth()
 }
-fmt.Println(string(plaintext))
-*/
+
+type AuthRepository interface {
+	GetLogin(ctx *fiber.Ctx) (Auth, error)
+	Authorize()
+}

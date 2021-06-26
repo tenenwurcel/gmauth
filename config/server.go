@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	_handlers "gmauth/api/handler"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -11,20 +10,22 @@ import (
 var app *fiber.App
 var port string
 
+type handle func(*fiber.App)
+
 func SetupApp() {
 	App := fiber.New()
+	fmt.Println("ok")
 	App.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:8080",
+		AllowOrigins:     "https://rel2-bambufe-tenenwurcel.cloud.okteto.net",
 		AllowHeaders:     "*",
 		AllowCredentials: true,
 	}))
-	registerHandlers(App)
 	setApp(App)
 	setPort("80")
 }
 
-func registerHandlers(r *fiber.App) {
-	_handlers.NewAuthHandler(r)
+func RegisterFiberHandler(hdl handle) {
+	hdl(app)
 }
 
 func setApp(App *fiber.App) {
