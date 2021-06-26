@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-gmauth
+  name: gmauth
 spec:
   # minReadySeconds: 30
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-gmauth
+      app: gmauth
   replicas: 1
   template: # template for the pods
     metadata:
       labels:
-        app: {{ .Release.Name }}-gmauth
+        app: gmauth
     spec:
       containers:
-      - name: {{ .Release.Name }}-gmauth
+      - name: gmauth
         image: ghcr.io/tenenwurcel/gmauth:2.0.1
       imagePullSecrets:
       - name: regcred
@@ -24,14 +24,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-gmauth
+  name: gmauth
   labels:
-    app: {{ .Release.Name }}-gmauth
+    app: gmauth
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: 80
       protocol: TCP
-      targetPort: 8080
+      targetPort: 80
   selector:
-    app: {{ .Release.Name }}-gmauth
+    app: gmauth
