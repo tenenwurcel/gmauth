@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-gmauth
-        image: ghcr.io/tenenwurcel/gmauth:2.0.0
+        image: ghcr.io/tenenwurcel/gmauth:2.0.1
       imagePullSecrets:
       - name: regcred
 
