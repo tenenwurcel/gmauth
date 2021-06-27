@@ -6,8 +6,8 @@ Currently being developed under minikube environment
 ## Current Project Models
 ### GMSESS
 URL: https://github.com/tenenwurcel/gmsess
-\STATUS: REVISION
+STATUS: REVISION
 
 ### GMAUTH
 URL: https://github.com/tenenwurcel/gmauth
-\STATUS: DOING
+STATUS: DOING
